@@ -5,10 +5,8 @@ import 'data.dart';
 
 final memberListRepositoryProvider = StreamProvider.autoDispose((_) {
   CollectionReference ref = FirebaseFirestore.instance.collection('member');
-  return ref
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).map((data) {
-            print(data);
-            return Member(name: data['name'], division: data['division']);
-          }).toList());
+  return ref.snapshots().map((snapshot) => snapshot.docs
+      .map((doc) => doc.data())
+      .map((data) => Member(name: data['name'], division: data['division']))
+      .toList());
 });
