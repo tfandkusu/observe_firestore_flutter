@@ -53,6 +53,7 @@ class MainBody extends HookWidget {
                 .copyWith(color: Colors.white);
             final headerBackgroundColor =
                 Color.fromARGB(0xff, 0x66, 0x66, 0x66);
+            final itemTextStyle = Theme.of(context).textTheme.bodyText2;
             return CustomScrollView(
               slivers: snapshot.data
                   .map((e) => SliverStickyHeader(
@@ -65,7 +66,7 @@ class MainBody extends HookWidget {
                         sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (context, i) => Container(
-                                    child: Text(e.names[i]),
+                                    child: Text(e.names[i], style: itemTextStyle),
                                     padding: EdgeInsets.fromLTRB(16, 8, 16, 8)),
                                 childCount: e.names.length)),
                       ))
