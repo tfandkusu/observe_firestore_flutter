@@ -18,6 +18,7 @@ final divisionListProvider = Provider.autoDispose((ref) async {
       return a.division.compareTo(b.division);
     }
   });
+  // 部署1 - メンバー多のデータに変換する
   final divisions = List<Division>();
   for (final e in memberList) {
     if (divisions.isEmpty || divisions.last.division != e.division) {
@@ -35,8 +36,6 @@ final streamDivisionListProvider = StreamProvider.autoDispose((ref) {
   });
   final streamMemberList = ref.read(memberListRepositoryProvider);
   streamMemberList.whenData((memberList) {
-    // Future<List<Member>>なので、値を取得できるまで待つ。
-    // 部署名順、次に氏名順に並べる。
     memberList.sort((a, b) {
       if (a.division == b.division) {
         return a.name.compareTo(b.name);
