@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/all.dart';
 
 import 'data.dart';
 
-final memberListRepositoryProvider = StreamProvider.autoDispose((_) {
+final memberListStreamProvider = StreamProvider.autoDispose((_) {
   CollectionReference ref = FirebaseFirestore.instance.collection('member');
   return ref.snapshots().map((snapshot) => snapshot.docs
       .map((doc) => doc.data())
