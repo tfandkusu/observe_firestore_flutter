@@ -58,6 +58,7 @@ class MainBody extends HookWidget {
               slivers: snapshot.data
                   .map((e) => SliverStickyHeader(
                         header: Container(
+                          // 部署名ヘッダー
                           child: Text(e.division, style: headerTextStyle),
                           padding: EdgeInsets.all(16),
                           decoration:
@@ -66,6 +67,7 @@ class MainBody extends HookWidget {
                         sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (context, i) => Container(
+                                  // 部署に所属するメンバー氏名
                                     child: Text(e.names[i], style: itemTextStyle),
                                     padding: EdgeInsets.fromLTRB(16, 8, 16, 8)),
                                 childCount: e.names.length)),
