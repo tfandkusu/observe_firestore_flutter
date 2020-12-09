@@ -42,41 +42,33 @@ class MainBody extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final futureDivisionList = useProvider(divisionListProvider);
-    return FutureBuilder(
-        future: futureDivisionList,
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Division>> snapshot) {
-          if (snapshot.hasData) {
-            final headerTextStyle = Theme.of(context)
-                .textTheme
-                .subtitle2
-                .copyWith(color: Colors.white);
-            final headerBackgroundColor =
-                Color.fromARGB(0xff, 0x66, 0x66, 0x66);
-            final itemTextStyle = Theme.of(context).textTheme.bodyText2;
-            return CustomScrollView(
-              slivers: snapshot.data
-                  .map((e) => SliverStickyHeader(
-                        header: Container(
-                          // 部署名ヘッダー
-                          child: Text(e.division, style: headerTextStyle),
-                          padding: EdgeInsets.all(16),
-                          decoration:
-                              BoxDecoration(color: headerBackgroundColor),
-                        ),
-                        sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                                (context, i) => Container(
-                                  // 部署に所属するメンバー氏名
-                                    child: Text(e.names[i], style: itemTextStyle),
-                                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8)),
-                                childCount: e.names.length)),
-                      ))
-                  .toList(),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        });
+    final snapshot = useFuture(futureDivisionList);
+    if (snapshot.hasData) {
+      final headerTextStyle =
+          Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white);
+      final headerBackgroundColor = Color.fromARGB(0xff, 0x66, 0x66, 0x66);
+      final itemTextStyle = Theme.of(context).textTheme.bodyText2;
+      return CustomScrollView(
+        slivers: snapshot.data
+            .map((e) => SliverStickyHeader(
+                  header: Container(
+                    // 部署名ヘッダー
+                    child: Text(e.division, style: headerTextStyle),
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(color: headerBackgroundColor),
+                  ),
+                  sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (context, i) => Container(
+                              // 部署に所属するメンバー氏名
+                              child: Text(e.names[i], style: itemTextStyle),
+                              padding: EdgeInsets.fromLTRB(16, 8, 16, 8)),
+                          childCount: e.names.length)),
+                ))
+            .toList(),
+      );
+    } else {
+      return Center(child: CircularProgressIndicator());
+    }
   }
 }
